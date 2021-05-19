@@ -1,0 +1,40 @@
+[package]
+name = "zero2prod"
+version = "0.1.0"
+authors = ["Datallboy <github@datallboy.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "zero2prod"
+
+[dependencies]
+actix-http = "=3.0.0-beta.5"
+actix-service = "=2.0.0-beta.5"
+actix-web = "=4.0.0-beta.5"
+config = "0.11.0"
+serde = { version = "1", features = ["derive"]}
+uuid = {version = "0.8.1", features = ["v4"]}
+chrono = "0.4.15"
+
+[dependencies.sqlx]
+version = "0.5.1"
+default-features = false
+features = [
+  "runtime-actix-rustls",
+  "macros",
+  "postgres",
+  "uuid",
+  "chrono",
+  "migrate"
+]
+
+[dev-dependencies]
+actix-rt = "2"
+reqwest = "0.11"
+tokio = "1"
