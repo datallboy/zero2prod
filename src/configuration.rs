@@ -1,6 +1,7 @@
 use std::convert::{TryFrom, TryInto};
 use sqlx::postgres::{PgConnectOptions, PgSslMode};
 use serde_aux::field_attributes::deserialize_number_from_string;
+use dotenv::dotenv;
 
 #[derive(serde::Deserialize)]
 pub struct Settings {
@@ -50,9 +51,10 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
   let mut settings = config::Config::default();
   let base_path = std::env::current_dir().expect("Failed to determine the current directory");
   let configuration_directory = base_path.join("configuration");
-
   settings.merge(config::File::from(configuration_directory.join("base")).required(true))?;
 
+  // Initialize .env
+  dotenv().ok();
   let environment: Environment = std::env::var("APP_ENVIRONMENT")
     .unwrap_or_else(|_| "local".into())
     .try_into()
